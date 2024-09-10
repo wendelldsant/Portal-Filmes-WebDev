@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom"
+
 export default function Header(){
     return(
         <>
@@ -7,9 +9,9 @@ export default function Header(){
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="">Home</a></li>
-                        <li><a href="">Filmes</a></li>
-                        <li><a href="">Gêneros</a></li>
+                        <NavLink to='/'>Home</NavLink>
+                        <NavLink to='/movies'>Filmes</NavLink>
+                        <NavLink to='/genre'>Generos</NavLink>
                     </ul>
                 </nav>
             </header>
