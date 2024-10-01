@@ -1,7 +1,6 @@
 import { useState } from "react";
 import movies from "../data/movies.json"
 import MovieCard from "../components/MovieCard";
-import { list } from "postcss";
 
 export default function MovieListPage(){
 
@@ -14,17 +13,14 @@ export default function MovieListPage(){
     // }
 
     const [search, setSearch] = useState('')
-    const[listaFilmes, setListaFilmes] = useState(movies);
 
     const handleSearch = (event) =>{
         setSearch(event.target.value)
-        const filmesFiltrados = movies.filter(filme => ( filme.titulo).includes(search))
-        setListaFilmes(filmesFiltrados)
-        console.log(listaFilmes)
-        if (listaFilmes === ''){
-            setListaFilmes (movies)
-        }   
     }
+    const filmesFiltrados = movies.filter(filme => filme.titulo.toLowerCase().includes(search.toLowerCase()))
+    console.log(filmesFiltrados)
+
+
     return(
         <>
             <h2>Veja a Lista Completa de Filmes</h2>   
@@ -37,15 +33,18 @@ export default function MovieListPage(){
             value={search}
             onChange={handleSearch}
             />
-            <div className="flex">
+            <section className="flex">
                 {
-                    listaFilmes
-                        .map(movie=> (
-                            <MovieCard key={movie.id} {...movie}/>
+                    filmesFiltrados.length>0 ?
+                    filmesFiltrados
+                        .map(filme=> (
+                            <MovieCard key={filme.id} {...filme}/>
                     ))
+                    :
+                    <p>Filme não encontrado</p>
                             
                 }
-            </div>
+            </section>
         </>
     )
 }   
