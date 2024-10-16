@@ -1,5 +1,4 @@
-import { useState } from "react";
-import movies from "../data/movies.json"
+import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
 
 export default function MovieListPage(){
@@ -13,12 +12,21 @@ export default function MovieListPage(){
     // }
 
     const [search, setSearch] = useState('')
+    const [filmes, setFilmes] = useState([])
+
+    useEffect(() => {
+        fetch('https://api.themoviedb.org/3/movie/popular?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br')
+        .then( results => results.json())
+        .then(data => setFilmes(data.results))
+        .catch(erro => console.log(erro))
+        .finally(() => console.log("Cabou!"))
+    },[])
+
 
     const handleSearch = (event) =>{
         setSearch(event.target.value)
     }
-    const filmesFiltrados = movies.filter(filme => filme.titulo.toLowerCase().includes(search.toLowerCase()))
-    console.log(filmesFiltrados)
+    const filmesFiltrados = filmes.filter(filme => filme.title.toLowerCase().includes(search.toLowerCase()))
 
 
     return(
@@ -33,7 +41,7 @@ export default function MovieListPage(){
             value={search}
             onChange={handleSearch}
             />
-            <section className="flex">
+            <section className="grid grid-cols-4 gap-6 h-52 text-xs">
                 {
                     filmesFiltrados.length>0 ?
                     filmesFiltrados
